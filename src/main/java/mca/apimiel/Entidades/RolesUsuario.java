@@ -19,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author Jesus
@@ -37,6 +39,7 @@ public class RolesUsuario implements Serializable {
     @Column(name = "nombre_rol")
     private String nombreRol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRol")
+    @JsonIgnore
     private List<Usuarios> usuariosList;
 
     public RolesUsuario() {

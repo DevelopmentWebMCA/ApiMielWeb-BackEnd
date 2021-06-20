@@ -21,6 +21,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author Jesus
@@ -51,6 +53,7 @@ public class Usuarios implements Serializable {
     @ManyToOne(optional = false)
     private RolesUsuario idRol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @JsonIgnore
     private List<Posts> postsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Apicultores> apicultoresList;
