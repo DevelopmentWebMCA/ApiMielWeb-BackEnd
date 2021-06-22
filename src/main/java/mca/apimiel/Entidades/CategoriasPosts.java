@@ -19,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author Jesus
@@ -39,6 +41,8 @@ public class CategoriasPosts implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
+    //Duda: Las tablas "hijo" no deben tener la etiqueta OneToMany?"
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
     private List<Posts> postsList;
 

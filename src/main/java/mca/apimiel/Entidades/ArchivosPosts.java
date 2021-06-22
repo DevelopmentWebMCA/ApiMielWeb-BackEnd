@@ -18,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author Jesus
@@ -38,6 +40,7 @@ public class ArchivosPosts implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo_archivo")
     private String tipoArchivo;
+    @JsonIgnore
     @JoinColumn(name = "posts_id_post", referencedColumnName = "id_post")
     @ManyToOne(optional = false)
     private Posts postsIdPost;
