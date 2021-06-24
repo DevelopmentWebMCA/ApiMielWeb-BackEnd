@@ -7,23 +7,27 @@ package mca.apimiel.Entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Jesus
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "areas_floracion")
-public class AreasFloracion implements Serializable {
+
+public class AreaFloracion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,42 +36,59 @@ public class AreasFloracion implements Serializable {
     @Column(name = "id_areas_floracion")
     private Integer idAreasFloracion;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_finca")
     private String nombreFinca;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "region_estado")
     private String regionEstado;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "familia_flores")
     private String familiaFlores;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "especie_flores")
     private String especieFlores;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_comun")
     private String nombreComun;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "frecuencia_visita")
     private String frecuenciaVisita;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "periodo_floracion")
     private String periodoFloracion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
     @Column(name = "latitud")
     private BigDecimal latitud;
-    @Basic(optional = false)
     @Column(name = "longitud")
     private BigDecimal longitud;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "actualizacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date actualizacion;
 
-    public AreasFloracion() {
+    public AreaFloracion() {
     }
 
-    public AreasFloracion(Integer idAreasFloracion) {
+    public AreaFloracion(Integer idAreasFloracion) {
         this.idAreasFloracion = idAreasFloracion;
     }
 
-    public AreasFloracion(Integer idAreasFloracion, String nombreFinca, String regionEstado, String familiaFlores, String especieFlores, String nombreComun, String frecuenciaVisita, String periodoFloracion, BigDecimal latitud, BigDecimal longitud) {
+    public AreaFloracion(Integer idAreasFloracion, String nombreFinca, String regionEstado, String familiaFlores, String especieFlores, String nombreComun, String frecuenciaVisita, String periodoFloracion, Date actualizacion) {
         this.idAreasFloracion = idAreasFloracion;
         this.nombreFinca = nombreFinca;
         this.regionEstado = regionEstado;
@@ -76,8 +97,7 @@ public class AreasFloracion implements Serializable {
         this.nombreComun = nombreComun;
         this.frecuenciaVisita = frecuenciaVisita;
         this.periodoFloracion = periodoFloracion;
-        this.latitud = latitud;
-        this.longitud = longitud;
+        this.actualizacion = actualizacion;
     }
 
     public Integer getIdAreasFloracion() {
@@ -160,6 +180,14 @@ public class AreasFloracion implements Serializable {
         this.longitud = longitud;
     }
 
+    public Date getActualizacion() {
+        return actualizacion;
+    }
+
+    public void setActualizacion(Date actualizacion) {
+        this.actualizacion = actualizacion;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -170,10 +198,10 @@ public class AreasFloracion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AreasFloracion)) {
+        if (!(object instanceof AreaFloracion)) {
             return false;
         }
-        AreasFloracion other = (AreasFloracion) object;
+        AreaFloracion other = (AreaFloracion) object;
         if ((this.idAreasFloracion == null && other.idAreasFloracion != null) || (this.idAreasFloracion != null && !this.idAreasFloracion.equals(other.idAreasFloracion))) {
             return false;
         }
@@ -182,7 +210,7 @@ public class AreasFloracion implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.AreasFloracion[ idAreasFloracion=" + idAreasFloracion + " ]";
+        return "mca.apimiel.Entidades.AreaFloracion[ idAreasFloracion=" + idAreasFloracion + " ]";
     }
     
 }

@@ -7,63 +7,76 @@ package mca.apimiel.Entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Jesus
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "productos")
-public class Productos implements Serializable {
+public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "id_producto")
     private String idProducto;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_producto")
     private String nombreProducto;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @Column(name = "cantidad")
-    private BigDecimal cantidad;
-    @Basic(optional = false)
-    @Column(name = "precio")
-    private BigDecimal precio;
-    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "unidad_medida")
     private String unidadMedida;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productos")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "actualizacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date actualizacion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<DetalleProduccion> detalleProduccionList;
 
-    public Productos() {
+    public Producto() {
     }
 
-    public Productos(String idProducto) {
+    public Producto(String idProducto) {
         this.idProducto = idProducto;
     }
 
-    public Productos(String idProducto, String nombreProducto, String descripcion, BigDecimal cantidad, BigDecimal precio, String unidadMedida) {
+    public Producto(String idProducto, String nombreProducto, String descripcion, String unidadMedida, Date actualizacion, BigDecimal cantidad, BigDecimal precio) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcion = descripcion;
-        this.cantidad = cantidad;
-        this.precio = precio;
         this.unidadMedida = unidadMedida;
+        this.actualizacion = actualizacion;
+        
     }
 
     public String getIdProducto() {
@@ -90,22 +103,6 @@ public class Productos implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public BigDecimal getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(BigDecimal cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public BigDecimal getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(BigDecimal precio) {
-        this.precio = precio;
-    }
-
     public String getUnidadMedida() {
         return unidadMedida;
     }
@@ -113,6 +110,16 @@ public class Productos implements Serializable {
     public void setUnidadMedida(String unidadMedida) {
         this.unidadMedida = unidadMedida;
     }
+
+    public Date getActualizacion() {
+        return actualizacion;
+    }
+
+    public void setActualizacion(Date actualizacion) {
+        this.actualizacion = actualizacion;
+    }
+
+    
 
     public List<DetalleProduccion> getDetalleProduccionList() {
         return detalleProduccionList;
@@ -132,10 +139,10 @@ public class Productos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Productos)) {
+        if (!(object instanceof Producto)) {
             return false;
         }
-        Productos other = (Productos) object;
+        Producto other = (Producto) object;
         if ((this.idProducto == null && other.idProducto != null) || (this.idProducto != null && !this.idProducto.equals(other.idProducto))) {
             return false;
         }
@@ -144,7 +151,7 @@ public class Productos implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.Productos[ idProducto=" + idProducto + " ]";
+        return "mca.apimiel.Entidades.Producto[ idProducto=" + idProducto + " ]";
     }
     
 }

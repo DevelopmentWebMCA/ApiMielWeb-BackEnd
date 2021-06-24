@@ -6,6 +6,7 @@
 package mca.apimiel.Entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -14,20 +15,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Jesus
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "categorias_posts")
-public class CategoriasPosts implements Serializable {
+
+public class CategoriaPost implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,27 +38,35 @@ public class CategoriasPosts implements Serializable {
     @Column(name = "id_categoria")
     private Integer idCategoria;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_categoria")
     private String nombreCategoria;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    //Duda: Las tablas "hijo" no deben tener la etiqueta OneToMany?"
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
-    private List<Posts> postsList;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "actualizacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date actualizacion;
+    
+   
 
-    public CategoriasPosts() {
+    public CategoriaPost() {
     }
 
-    public CategoriasPosts(Integer idCategoria) {
+    public CategoriaPost(Integer idCategoria) {
         this.idCategoria = idCategoria;
     }
 
-    public CategoriasPosts(Integer idCategoria, String nombreCategoria, String descripcion) {
+    public CategoriaPost(Integer idCategoria, String nombreCategoria, String descripcion, Date actualizacion) {
         this.idCategoria = idCategoria;
         this.nombreCategoria = nombreCategoria;
         this.descripcion = descripcion;
+        this.actualizacion = actualizacion;
     }
 
     public Integer getIdCategoria() {
@@ -83,13 +93,15 @@ public class CategoriasPosts implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<Posts> getPostsList() {
-        return postsList;
+    public Date getActualizacion() {
+        return actualizacion;
     }
 
-    public void setPostsList(List<Posts> postsList) {
-        this.postsList = postsList;
+    public void setActualizacion(Date actualizacion) {
+        this.actualizacion = actualizacion;
     }
+
+    
 
     @Override
     public int hashCode() {
@@ -101,10 +113,10 @@ public class CategoriasPosts implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategoriasPosts)) {
+        if (!(object instanceof CategoriaPost)) {
             return false;
         }
-        CategoriasPosts other = (CategoriasPosts) object;
+        CategoriaPost other = (CategoriaPost) object;
         if ((this.idCategoria == null && other.idCategoria != null) || (this.idCategoria != null && !this.idCategoria.equals(other.idCategoria))) {
             return false;
         }
@@ -113,7 +125,7 @@ public class CategoriasPosts implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.CategoriasPosts[ idCategoria=" + idCategoria + " ]";
+        return "mca.apimiel.Entidades.CategoriaPost[ idCategoria=" + idCategoria + " ]";
     }
     
 }

@@ -16,20 +16,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
- *
- * @author Jesus
+ *                
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "usuarios")
-public class Usuarios implements Serializable {
+public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,39 +36,40 @@ public class Usuarios implements Serializable {
     @Column(name = "id_usuario")
     private Integer idUsuario;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "correo_electronico")
     private String correoElectronico;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "contrasenia")
     private String contrasenia;
-    @Basic(optional = false)
-    @Column(name = "departamento")
-    private String departamento;
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne(optional = false)
-    private RolesUsuario idRol;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    @JsonIgnore
-    private List<Posts> postsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<Apicultores> apicultoresList;
+    private RolUsuario rolUsuario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private List<Post> postList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private List<Apicultor> apicultorList;
 
-    public Usuarios() {
+    public Usuario() {
     }
 
-    public Usuarios(Integer idUsuario) {
+    public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public Usuarios(Integer idUsuario, String nombreUsuario, String correoElectronico, String contrasenia, String departamento) {
+    public Usuario(Integer idUsuario, String nombreUsuario, String correoElectronico, String contrasenia) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.correoElectronico = correoElectronico;
         this.contrasenia = contrasenia;
-        this.departamento = departamento;
     }
 
     public Integer getIdUsuario() {
@@ -105,36 +104,28 @@ public class Usuarios implements Serializable {
         this.contrasenia = contrasenia;
     }
 
-    public String getDepartamento() {
-        return departamento;
+    public RolUsuario getRolUsuario() {
+        return rolUsuario;
     }
 
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+    public void setRolUsuario(RolUsuario rolUsuario) {
+        this.rolUsuario = rolUsuario;
     }
 
-    public RolesUsuario getIdRol() {
-        return idRol;
+    public List<Post> getPostList() {
+        return postList;
     }
 
-    public void setIdRol(RolesUsuario idRol) {
-        this.idRol = idRol;
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 
-    public List<Posts> getPostsList() {
-        return postsList;
+    public List<Apicultor> getApicultorList() {
+        return apicultorList;
     }
 
-    public void setPostsList(List<Posts> postsList) {
-        this.postsList = postsList;
-    }
-
-    public List<Apicultores> getApicultoresList() {
-        return apicultoresList;
-    }
-
-    public void setApicultoresList(List<Apicultores> apicultoresList) {
-        this.apicultoresList = apicultoresList;
+    public void setApicultorList(List<Apicultor> apicultorList) {
+        this.apicultorList = apicultorList;
     }
 
     @Override
@@ -147,10 +138,10 @@ public class Usuarios implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuarios)) {
+        if (!(object instanceof Usuario)) {
             return false;
         }
-        Usuarios other = (Usuarios) object;
+        Usuario other = (Usuario) object;
         if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
             return false;
         }
@@ -159,7 +150,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.Usuarios[ idUsuario=" + idUsuario + " ]";
+        return "mca.apimiel.Entidades.Usuario[ idUsuario=" + idUsuario + " ]";
     }
     
 }

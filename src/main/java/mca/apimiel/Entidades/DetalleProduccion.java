@@ -10,65 +10,73 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Jesus
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "detalle_produccion")
+
 public class DetalleProduccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected DetalleProduccionPK detalleProduccionPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_detalle_produccion")
+    private Integer idDetalleProduccion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad")
     private BigDecimal cantidad;
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "precio")
+    private BigDecimal precio;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "id_apicultor", referencedColumnName = "id_apicultor", insertable = false, updatable = false)
+    @JoinColumn(name = "id_apicultor", referencedColumnName = "id_apicultor")
     @ManyToOne(optional = false)
-    private Apicultores apicultores;
-    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto", insertable = false, updatable = false)
+    private Apicultor apicultor;
+    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
     @ManyToOne(optional = false)
-    private Productos productos;
+    private Producto producto;
 
     public DetalleProduccion() {
     }
 
-    public DetalleProduccion(DetalleProduccionPK detalleProduccionPK) {
-        this.detalleProduccionPK = detalleProduccionPK;
+    public DetalleProduccion(Integer idDetalleProduccion) {
+        this.idDetalleProduccion = idDetalleProduccion;
     }
 
-    public DetalleProduccion(DetalleProduccionPK detalleProduccionPK, BigDecimal cantidad, Date fecha) {
-        this.detalleProduccionPK = detalleProduccionPK;
+    public DetalleProduccion(Integer idDetalleProduccion, BigDecimal cantidad, BigDecimal precio, Date fecha) {
+        this.idDetalleProduccion = idDetalleProduccion;
         this.cantidad = cantidad;
+        this.precio = precio;
         this.fecha = fecha;
     }
 
-    public DetalleProduccion(String idApicultor, String idProducto, int idDetalleProduccion) {
-        this.detalleProduccionPK = new DetalleProduccionPK(idApicultor, idProducto, idDetalleProduccion);
+    public Integer getIdDetalleProduccion() {
+        return idDetalleProduccion;
     }
 
-    public DetalleProduccionPK getDetalleProduccionPK() {
-        return detalleProduccionPK;
-    }
-
-    public void setDetalleProduccionPK(DetalleProduccionPK detalleProduccionPK) {
-        this.detalleProduccionPK = detalleProduccionPK;
+    public void setIdDetalleProduccion(Integer idDetalleProduccion) {
+        this.idDetalleProduccion = idDetalleProduccion;
     }
 
     public BigDecimal getCantidad() {
@@ -79,6 +87,14 @@ public class DetalleProduccion implements Serializable {
         this.cantidad = cantidad;
     }
 
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -87,26 +103,26 @@ public class DetalleProduccion implements Serializable {
         this.fecha = fecha;
     }
 
-    public Apicultores getApicultores() {
-        return apicultores;
+    public Apicultor getApicultor() {
+        return apicultor;
     }
 
-    public void setApicultores(Apicultores apicultores) {
-        this.apicultores = apicultores;
+    public void setApicultor(Apicultor apicultor) {
+        this.apicultor = apicultor;
     }
 
-    public Productos getProductos() {
-        return productos;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setProductos(Productos productos) {
-        this.productos = productos;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (detalleProduccionPK != null ? detalleProduccionPK.hashCode() : 0);
+        hash += (idDetalleProduccion != null ? idDetalleProduccion.hashCode() : 0);
         return hash;
     }
 
@@ -117,7 +133,7 @@ public class DetalleProduccion implements Serializable {
             return false;
         }
         DetalleProduccion other = (DetalleProduccion) object;
-        if ((this.detalleProduccionPK == null && other.detalleProduccionPK != null) || (this.detalleProduccionPK != null && !this.detalleProduccionPK.equals(other.detalleProduccionPK))) {
+        if ((this.idDetalleProduccion == null && other.idDetalleProduccion != null) || (this.idDetalleProduccion != null && !this.idDetalleProduccion.equals(other.idDetalleProduccion))) {
             return false;
         }
         return true;
@@ -125,7 +141,7 @@ public class DetalleProduccion implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.DetalleProduccion[ detalleProduccionPK=" + detalleProduccionPK + " ]";
+        return "mca.apimiel.Entidades.DetalleProduccion[ idDetalleProduccion=" + idDetalleProduccion + " ]";
     }
     
 }

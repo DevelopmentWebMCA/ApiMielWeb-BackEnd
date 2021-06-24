@@ -6,27 +6,26 @@
 package mca.apimiel.Entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Jesus
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "archivos_posts")
-public class ArchivosPosts implements Serializable {
+public class ArchivoPost implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,27 +34,34 @@ public class ArchivosPosts implements Serializable {
     @Column(name = "id_archivos")
     private Integer idArchivos;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 500)
     @Column(name = "url")
     private String url;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "tipo_archivo")
     private String tipoArchivo;
-    @JsonIgnore
-    @JoinColumn(name = "posts_id_post", referencedColumnName = "id_post")
-    @ManyToOne(optional = false)
-    private Posts postsIdPost;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "actualizacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date actualizacion;
+   
 
-    public ArchivosPosts() {
+    public ArchivoPost() {
     }
 
-    public ArchivosPosts(Integer idArchivos) {
+    public ArchivoPost(Integer idArchivos) {
         this.idArchivos = idArchivos;
     }
 
-    public ArchivosPosts(Integer idArchivos, String url, String tipoArchivo) {
+    public ArchivoPost(Integer idArchivos, String url, String tipoArchivo, Date actualizacion) {
         this.idArchivos = idArchivos;
         this.url = url;
         this.tipoArchivo = tipoArchivo;
+        this.actualizacion = actualizacion;
     }
 
     public Integer getIdArchivos() {
@@ -82,13 +88,14 @@ public class ArchivosPosts implements Serializable {
         this.tipoArchivo = tipoArchivo;
     }
 
-    public Posts getPostsIdPost() {
-        return postsIdPost;
+    public Date getActualizacion() {
+        return actualizacion;
     }
 
-    public void setPostsIdPost(Posts postsIdPost) {
-        this.postsIdPost = postsIdPost;
+    public void setActualizacion(Date actualizacion) {
+        this.actualizacion = actualizacion;
     }
+
 
     @Override
     public int hashCode() {
@@ -100,10 +107,10 @@ public class ArchivosPosts implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ArchivosPosts)) {
+        if (!(object instanceof ArchivoPost)) {
             return false;
         }
-        ArchivosPosts other = (ArchivosPosts) object;
+        ArchivoPost other = (ArchivoPost) object;
         if ((this.idArchivos == null && other.idArchivos != null) || (this.idArchivos != null && !this.idArchivos.equals(other.idArchivos))) {
             return false;
         }
@@ -112,7 +119,7 @@ public class ArchivosPosts implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.ArchivosPosts[ idArchivos=" + idArchivos + " ]";
+        return "mca.apimiel.Entidades.ArchivoPost[ idArchivos=" + idArchivos + " ]";
     }
     
 }

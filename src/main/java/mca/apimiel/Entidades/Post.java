@@ -17,20 +17,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Jesus
+ * @author Andres Cuevas
  */
 @Entity
 @Table(name = "posts")
-public class Posts implements Serializable {
+public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,33 +39,37 @@ public class Posts implements Serializable {
     @Column(name = "id_post")
     private Integer idPost;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
     @Column(name = "contenido")
     private String contenido;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_modificacion")
     @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "postsIdPost")
-    private List<ArchivosPosts> archivosPostsList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+//    private List<ArchivoPost> archivoPostList;
     @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @ManyToOne(optional = false)
-    private CategoriasPosts idCategoria;
+    private CategoriaPost categoriaPost;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
-    private Usuarios idUsuario;
+    private Usuario usuario;
 
-    public Posts() {
+    public Post() {
     }
 
-    public Posts(Integer idPost) {
+    public Post(Integer idPost) {
         this.idPost = idPost;
     }
 
-    public Posts(Integer idPost, String contenido, Date fechaCreacion, Date fechaModificacion) {
+    public Post(Integer idPost, String contenido, Date fechaCreacion, Date fechaModificacion) {
         this.idPost = idPost;
         this.contenido = contenido;
         this.fechaCreacion = fechaCreacion;
@@ -104,28 +108,29 @@ public class Posts implements Serializable {
         this.fechaModificacion = fechaModificacion;
     }
 
-    public List<ArchivosPosts> getArchivosPostsList() {
-        return archivosPostsList;
+   
+//    public List<ArchivoPost> getArchivoPostList() {
+//        return archivoPostList;
+//    }
+//
+//    public void setArchivoPostList(List<ArchivoPost> archivoPostList) {
+//        this.archivoPostList = archivoPostList;
+//    }
+
+    public CategoriaPost getCategoriaPost() {
+        return categoriaPost;
     }
 
-    public void setArchivosPostsList(List<ArchivosPosts> archivosPostsList) {
-        this.archivosPostsList = archivosPostsList;
+    public void setCategoriaPost(CategoriaPost categoriaPost) {
+        this.categoriaPost = categoriaPost;
     }
 
-    public CategoriasPosts getIdCategoria() {
-        return idCategoria;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdCategoria(CategoriasPosts idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
-    public Usuarios getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Usuarios idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -138,10 +143,10 @@ public class Posts implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Posts)) {
+        if (!(object instanceof Post)) {
             return false;
         }
-        Posts other = (Posts) object;
+        Post other = (Post) object;
         if ((this.idPost == null && other.idPost != null) || (this.idPost != null && !this.idPost.equals(other.idPost))) {
             return false;
         }
@@ -150,7 +155,7 @@ public class Posts implements Serializable {
 
     @Override
     public String toString() {
-        return "mca.apimiel.Entidades.Posts[ idPost=" + idPost + " ]";
+        return "mca.apimiel.Entidades.Post[ idPost=" + idPost + " ]";
     }
     
 }

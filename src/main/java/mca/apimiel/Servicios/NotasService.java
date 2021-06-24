@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import mca.apimiel.Entidades.Posts;
+import mca.apimiel.Entidades.Post;
 import mca.apimiel.Repositorios.NotasRepositorio;
 
 @Service
@@ -20,23 +20,23 @@ public class NotasService implements NotasRepositorio{
 	private NotasRepositorio notasRepositorio;
 
 	@Override
-	public List<Posts> findAll() {
+	public List<Post> findAll() {
 		return notasRepositorio.findAll();
 	}
 
 	@Override
-	public List<Posts> findAll(Sort sort) {
+	public List<Post> findAll(Sort sort) {
 		return notasRepositorio.findAll(sort);
 	}
 
 	@Override
-	public List<Posts> findAllById(Iterable<Integer> ids) {
+	public List<Post> findAllById(Iterable<Integer> ids) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> List<S> saveAll(Iterable<S> entities) {
+	public <S extends Post> List<S> saveAll(Iterable<S> entities) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -48,19 +48,19 @@ public class NotasService implements NotasRepositorio{
 	}
 
 	@Override
-	public <S extends Posts> S saveAndFlush(S entity) {
+	public <S extends Post> S saveAndFlush(S entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> List<S> saveAllAndFlush(Iterable<S> entities) {
+	public <S extends Post> List<S> saveAllAndFlush(Iterable<S> entities) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteAllInBatch(Iterable<Posts> entities) {
+	public void deleteAllInBatch(Iterable<Post> entities) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -78,43 +78,43 @@ public class NotasService implements NotasRepositorio{
 	}
 
 	@Override
-	public Posts getOne(Integer id) {
+	public Post getOne(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Posts getById(Integer id) {
+	public Post getById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> List<S> findAll(Example<S> example) {
+	public <S extends Post> List<S> findAll(Example<S> example) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> List<S> findAll(Example<S> example, Sort sort) {
+	public <S extends Post> List<S> findAll(Example<S> example, Sort sort) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Page<Posts> findAll(Pageable pageable) {
+	public Page<Post> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> S save(S entity) {
+	public <S extends Post> S save(S entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<Posts> findById(Integer id) {
+	public Optional<Post> findById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -138,7 +138,7 @@ public class NotasService implements NotasRepositorio{
 	}
 
 	@Override
-	public void delete(Posts entity) {
+	public void delete(Post entity) {
 		notasRepositorio.delete(entity);
 		
 	}
@@ -150,7 +150,7 @@ public class NotasService implements NotasRepositorio{
 	}
 
 	@Override
-	public void deleteAll(Iterable<? extends Posts> entities) {
+	public void deleteAll(Iterable<? extends Post> entities) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -162,25 +162,25 @@ public class NotasService implements NotasRepositorio{
 	}
 
 	@Override
-	public <S extends Posts> Optional<S> findOne(Example<S> example) {
+	public <S extends Post> Optional<S> findOne(Example<S> example) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> Page<S> findAll(Example<S> example, Pageable pageable) {
+	public <S extends Post> Page<S> findAll(Example<S> example, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends Posts> long count(Example<S> example) {
+	public <S extends Post> long count(Example<S> example) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public <S extends Posts> boolean exists(Example<S> example) {
+	public <S extends Post> boolean exists(Example<S> example) {
 		// TODO Auto-generated method stub
 		return false;
 	}

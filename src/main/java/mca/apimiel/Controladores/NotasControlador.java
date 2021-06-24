@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import mca.apimiel.Entidades.Posts;
+import mca.apimiel.Entidades.Post;
 import mca.apimiel.Repositorios.NotasRepositorio;
 
 @RestController
@@ -29,13 +29,13 @@ public class NotasControlador {
 	NotasRepositorio notasRepositorio;
 	
 	@GetMapping("/notas")
-	public List<Posts> getNotas(){
+	public List<Post> getNotas(){
 		return notasRepositorio.findAll();
 	}
 	
 	@GetMapping("/notas/{id}")
-	public ResponseEntity<Posts> getPostById(@PathVariable("id") Integer id){
-		Optional<Posts> posts = notasRepositorio.findById(id);
+	public ResponseEntity<Post> getPostById(@PathVariable("id") Integer id){
+		Optional<Post> posts = notasRepositorio.findById(id);
 		if(!posts.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -46,7 +46,7 @@ public class NotasControlador {
 	
 	
 	@PostMapping("/notas/agregar")
-	public ResponseEntity<Object> agregarNotas(@RequestBody Posts posts, Errors errores){
+	public ResponseEntity<Object> agregarNotas(@RequestBody Post posts, Errors errores){
 		
 		try {
 			if(errores.hasFieldErrors()) {
@@ -80,7 +80,7 @@ public class NotasControlador {
 	}
 	
 	@PutMapping("/notas/modificar/{id}")
-	public ResponseEntity modificarPost(@PathVariable("id") Integer id, @RequestBody Posts posts) {
+	public ResponseEntity modificarPost(@PathVariable("id") Integer id, @RequestBody Post posts) {
 		try {
 			posts.setIdPost(id);
 			notasRepositorio.save(posts);
