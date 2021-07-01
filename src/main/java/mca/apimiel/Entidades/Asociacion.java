@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
 
 public class Asociacion implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -72,11 +73,11 @@ public class Asociacion implements Serializable {
     @Column(name = "telefono")
     private String telefono;
     @Basic(optional = false)
-    @NotNull
+
     @Column(name = "actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asociacion")
     private List<Apicultor> apicultorList;
 
@@ -203,5 +204,4 @@ public class Asociacion implements Serializable {
     public String toString() {
         return "mca.apimiel.Entidades.Asociacion[ idAsociacion=" + idAsociacion + " ]";
     }
-    
 }
