@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import mca.apimiel.Entidades.RolUsuario;
 import mca.apimiel.Entidades.Usuario;
-import mca.apimiel.Repositorios.RolesRepositorio;
 import mca.apimiel.Repositorios.UsuariosRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +38,12 @@ public class UsuariosControlador {
         return repoUsuarios.findAll();
     }
     
+    @GetMapping("/usuarios/page/{idrol}/{page}")
+    public List<Usuario> getUsuariosPage(@PathVariable("idrol") Integer idrol,@PathVariable("page") Integer page) {
+        return repoUsuarios.findAllByRolUsuario(idrol, PageRequest.of(page, 2));
+    }
+   
+    
     @GetMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> getUsuarioPorId(@PathVariable("id") Integer id){
         Optional<Usuario> usuarioId = repoUsuarios.findById(id);
@@ -48,11 +53,16 @@ public class UsuariosControlador {
         return ResponseEntity.ok(usuarioId.get());
     }
     
-    
     @GetMapping(value = "/usuarios", params = {"nombre"})
     public List<Usuario> buscarUsuarioPorNombre(
         @RequestParam("nombre") String cadena){
         return repoUsuarios.findByNombreUsuarioContaining(cadena);
+    }
+    
+    @GetMapping(value = "/usuarios/rol/{id}")
+    public List<Usuario> buscarUsuariosPorRol(
+        @PathVariable("id") Integer idRol){
+        return repoUsuarios.buscarUsuariosPorIdRol(idRol);  
     }
     
     @PostMapping("/usuarios/agregar")
@@ -96,8 +106,7 @@ public class UsuariosControlador {
             return ResponseEntity.
                     ok()
                     .build();
-        }
-        catch(Exception ex){
+        } catch(Exception ex){
             return ResponseEntity
                     .status(505)
                     .header("ERROR",ex.getMessage())

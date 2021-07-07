@@ -53,10 +53,10 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne(optional = false)
     private RolUsuario rolUsuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<Post> postList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<Apicultor> apicultorList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+//    private List<Post> postList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+//    private List<Apicultor> apicultorList;
 
     public Usuario() {
     }
@@ -112,21 +112,21 @@ public class Usuario implements Serializable {
         this.rolUsuario = rolUsuario;
     }
 
-    public List<Post> getPostList() {
-        return postList;
-    }
-
-    public void setPostList(List<Post> postList) {
-        this.postList = postList;
-    }
-
-    public List<Apicultor> getApicultorList() {
-        return apicultorList;
-    }
-
-    public void setApicultorList(List<Apicultor> apicultorList) {
-        this.apicultorList = apicultorList;
-    }
+//    public List<Post> getPostList() {
+//        return postList;
+//    }
+//
+//    public void setPostList(List<Post> postList) {
+//        this.postList = postList;
+//    }
+//
+//    public List<Apicultor> getApicultorList() {
+//        return apicultorList;
+//    }
+//
+//    public void setApicultorList(List<Apicultor> apicultorList) {
+//        this.apicultorList = apicultorList;
+//    }
 
     @Override
     public int hashCode() {
