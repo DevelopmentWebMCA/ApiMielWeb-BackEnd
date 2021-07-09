@@ -20,6 +20,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author Andres Cuevas
@@ -78,6 +80,7 @@ public class Asociacion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asociacion")
     private List<Apicultor> apicultorList;
 
