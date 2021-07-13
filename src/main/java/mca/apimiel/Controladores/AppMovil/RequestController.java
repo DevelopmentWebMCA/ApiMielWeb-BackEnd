@@ -1,23 +1,34 @@
 package mca.apimiel.Controladores.AppMovil;
+import java.net.URI;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import mca.apimiel.Entidades.Asociacion;
+import mca.apimiel.Entidades.DetalleProduccion;
 import mca.apimiel.Entidades.Producto;
 import mca.apimiel.Repositorios.AsociacionesRepositorio;
+import mca.apimiel.Repositorios.DetalleProduccionRepositorio;
 import mca.apimiel.Repositorios.ProductosRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path= "/apimiel/movil")
 public class RequestController {
     @Autowired
     AsociacionesRepositorio asociacionesRepositorio;
+    @Autowired
     ProductosRepositorio productosRepositorio;
+    @Autowired
+    DetalleProduccionRepositorio dpRepositorio;
 
      //Petición de las asociaciones con una fecha de corte
     @GetMapping(value = "/asociaciones/{fechaCorte}")
@@ -44,7 +55,7 @@ public class RequestController {
         try
         { d = formato.parse(fechaCorte); }
         catch(ParseException e){
-            System.out.println("error de aqui " + e.getMessage());
+            System.out.println("error " + e.getMessage());
         }
         return productosRepositorio.getProductosAfterFecha(d);
     }
@@ -57,4 +68,32 @@ public class RequestController {
 
 
     //Petición para guardar la producción de un apicultor
+    @PostMapping(value = "/detalle_produccion/agregar")
+    public ResponseEntity agregarProduccion(@RequestBody @Valid DetalleProduccion dp, Errors errores){
+        try{
+            if(errores.hasFieldErrors()){
+                String mensaje = errores.getFieldErrors().
+                        stream().map(fe -> fe.getField() + " " + fe.getDefaultMessage()).
+                        collect(Collectors.joining(","));
+                return ResponseEntity.badRequest().
+                        header("ERROR",mensaje).
+                        build();
+            }
+            dpRepositorio.save(dp);
+            URI urlNuevoProduccion = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .build(dp.getIdDetalleProduccion());
+
+            return ResponseEntity
+                    .created(urlNuevoProduccion)
+                    //.body(art);
+                    .build();
+        } catch (Exception ex) {
+            return ResponseEntity
+                    .status(500)
+                    .header("ERROR", ex.getMessage())
+                    .build();
+        }
+    }
 }

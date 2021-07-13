@@ -26,7 +26,7 @@ public class ApimielApplication {
 
 				//Definición de cors para peticiones por parte de la app móvil
 				registry.addMapping("/apimiel/movil/**").
-						allowedOrigins("http://localhost:8080/") //Dirección de la app móvil
+						allowedOrigins("http://localhost") //Dirección de la app móvil
 						.allowedMethods("*").allowedHeaders("*");
 
 
