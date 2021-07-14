@@ -1,12 +1,13 @@
 package mca.apimiel.Controladores;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import mca.apimiel.Entidades.Usuario;
-import mca.apimiel.Repositorios.UsuariosRepositorio;
+import mca.apimiel.Entidades.AreaFloracion;
+import mca.apimiel.Repositorios.AreasFloracionRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -26,47 +27,54 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  *
  * @author Andres Cuevas
  */
+
 @RestController
 @RequestMapping(path = "/apimiel/web")
-public class UsuariosControlador {
-    
+public class AreasFloracionControlador {
     @Autowired
-    UsuariosRepositorio repoUsuarios;
+    AreasFloracionRepositorio repoAreas;
     
-    @GetMapping("/usuarios")
-    public List<Usuario> getUsuarios() {
-        return repoUsuarios.findAll();
+    @GetMapping("/areasfloracion")
+    public List<AreaFloracion> getAreasFloracion() {
+        return repoAreas.findAll();
     }
     
-    @GetMapping("/usuarios/page/{idrol}/{page}")
-    public List<Usuario> getUsuariosPage(@PathVariable("idrol") Integer idrol,@PathVariable("page") Integer page) {
-        return repoUsuarios.findAllByRolUsuario(idrol, PageRequest.of(page, 10));
-    }
-   
-    
-    @GetMapping("/usuarios/{id}")
-    public ResponseEntity<Usuario> getUsuarioPorId(@PathVariable("id") Integer id){
-        Optional<Usuario> usuarioId = repoUsuarios.findById(id);
-        if (!usuarioId.isPresent()){
+    @GetMapping("/areasfloracion/{id}")
+    public ResponseEntity<AreaFloracion> getAreaFloracionPorId(@PathVariable("id") Integer id){
+        Optional<AreaFloracion> areaId = repoAreas.findById(id);
+        if (!areaId.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(usuarioId.get());
+        return ResponseEntity.ok(areaId.get());
     }
     
-    @GetMapping(value = "/usuarios", params = {"nombre"})
-    public List<Usuario> buscarUsuarioPorNombre(
+    //Busquedas por parametros
+    
+    @GetMapping("/areasfloracion/page/{region}/{page}")
+    public List<AreaFloracion> getAreasFloracionPage(@PathVariable("region") String region,@PathVariable("page") Integer page) {
+        return repoAreas.findAllByRegion(region, PageRequest.of(page, 2));
+    }
+    
+    @GetMapping(value = "/areasfloracion", params = {"region"})
+    public List<AreaFloracion> buscarAreaPorRegion(
+        @RequestParam("region") String cadena){
+        return repoAreas.findByRegionEstadoContaining(cadena);
+    }
+    
+    @GetMapping(value = "/areasfloracion", params = {"familia"})
+    public List<AreaFloracion> buscarAreaPorFamilia(
+        @RequestParam("familia") String cadena){
+        return repoAreas.findByFamiliaFloresContaining(cadena);
+    }
+    
+    @GetMapping(value = "/areasfloracion", params = {"nombre"})
+    public List<AreaFloracion> buscarAreaPorNombre(
         @RequestParam("nombre") String cadena){
-        return repoUsuarios.findByNombreUsuarioContaining(cadena);
+        return repoAreas.findByNombreComunContaining(cadena);
     }
     
-    @GetMapping(value = "/usuarios/rol/{id}")
-    public List<Usuario> buscarUsuariosPorRol(
-        @PathVariable("id") Integer idRol){
-        return repoUsuarios.buscarUsuariosPorIdRol(idRol);  
-    }
-    
-    @PostMapping("/usuarios/agregar")
-    public ResponseEntity<Object> agregarUsuario(@RequestBody @Valid Usuario usuario, Errors errores){
+    @PostMapping("/areasfloracion/agregar")
+    public ResponseEntity<Object> agregarAreaFloracion(@RequestBody @Valid AreaFloracion area, Errors errores){
         try{
             if(errores.hasFieldErrors()){
                 String mensaje = errores.getFieldErrors()
@@ -78,14 +86,14 @@ public class UsuariosControlador {
                         .header("ERROR", mensaje)
                         .build();
             }
-            repoUsuarios.save(usuario);
+            repoAreas.save(area);
             
-            URI urlNuevoUsuario = ServletUriComponentsBuilder
+            URI urlNuevaArea = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .build(usuario.getIdUsuario());
+                    .build(area.getIdAreasFloracion());
             return ResponseEntity
-                    .created(urlNuevoUsuario)
+                    .created(urlNuevaArea)
                     .build();
         }
         catch(Exception ex){
@@ -96,13 +104,15 @@ public class UsuariosControlador {
         }
     }
     
-    @PutMapping("/usuarios/modificar/{id}")
-    public ResponseEntity<Object> modificarUsuario(
+    @PutMapping("/areasfloracion/modificar/{id}")
+    public ResponseEntity<Object> modificarAreaFloracion(
             @PathVariable("id") Integer id,
-            @RequestBody Usuario usuario){
+            @RequestBody AreaFloracion area){
          try{
-            usuario.setIdUsuario(id);
-            repoUsuarios.save(usuario);
+            Date d = new Date();
+            area.setActualizacion(d);
+            area.setIdAreasFloracion(id);
+            repoAreas.save(area);
             return ResponseEntity.
                     ok()
                     .build();
@@ -114,10 +124,10 @@ public class UsuariosControlador {
         }
     }
     
-    @DeleteMapping("/usuarios/eliminar/{id}")
-    public ResponseEntity eliminarUsuario(@PathVariable("id") Integer id){
+    @DeleteMapping("/areasfloracion/eliminar/{id}")
+    public ResponseEntity eliminarAreaFloracion(@PathVariable("id") Integer id){
         try{
-            repoUsuarios.deleteById(id);
+            repoAreas.deleteById(id);
             return ResponseEntity
                     .ok()
                     .build();

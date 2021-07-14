@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mca.apimiel.Entidades;
 
 import java.io.Serializable;
@@ -63,7 +58,7 @@ public class AreaFloracion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "frecuencia_visita")
+    @Column(name = "nombre_cientifico")
     private String frecuenciaVisita;
     @Basic(optional = false)
     @NotNull
