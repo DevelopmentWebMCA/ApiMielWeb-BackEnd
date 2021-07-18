@@ -27,14 +27,14 @@ public class ProductosControlador {
     @Autowired
     ProductosRepositorio productosRepositorio;
 
-    //Se obtienen todas las asociaciones
+    //Se obtienen todos los productos
 
     @GetMapping("/productos")
     public List<Producto> getProductos(){
         return productosRepositorio.findAll();
     }
 
-    //Se obtiene una asociación por ID
+    //Se obtiene un producto por ID
     @GetMapping("/productos/{id}")
     public ResponseEntity<Producto> getProductos(@PathVariable("id") String id){
         Optional<Producto> pro = productosRepositorio.findById(id);
@@ -44,7 +44,7 @@ public class ProductosControlador {
         return ResponseEntity.ok(pro.get());
     }
 
-    //Método para agregar una asociación
+    //Método para agregar un producto
     @PostMapping("/productos/agregar")
     public ResponseEntity agregarProducto(@RequestBody @Valid Producto pro, Errors errores){
         try{
@@ -66,7 +66,6 @@ public class ProductosControlador {
 
             return ResponseEntity
                     .created(urlNuevoProducto)
-                    //.body(art);
                     .build();
         } catch (Exception ex) {
             return ResponseEntity
@@ -99,7 +98,7 @@ public class ProductosControlador {
         }
     }
 
-    //Método para eliminar una asociación
+    //Método para eliminar un producto
     @DeleteMapping("/productos/eliminar/{id}")
     public ResponseEntity eliminarProducto(@PathVariable String id){
         try{
