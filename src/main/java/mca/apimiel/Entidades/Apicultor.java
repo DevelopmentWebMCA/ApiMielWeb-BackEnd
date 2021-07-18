@@ -5,6 +5,8 @@
  */
 package mca.apimiel.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -61,6 +63,7 @@ public class Apicultor implements Serializable {
     @Column(name = "actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "apicultor")
     private List<DetalleProduccion> detalleProduccionList;
     @JoinColumn(name = "id_asociacion", referencedColumnName = "id_asociacion")

@@ -1,5 +1,6 @@
 package mca.apimiel.Repositorios;
 
+import java.util.Date;
 import java.util.List;
 import mca.apimiel.Entidades.AreaFloracion;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,7 @@ public interface AreasFloracionRepositorio extends JpaRepository<AreaFloracion, 
     
     @Query("SELECT area FROM AreaFloracion area WHERE area.regionEstado LIKE :region")
     List <AreaFloracion> findAllByRegion(@Param("region")String region, Pageable page);
+
+    @Query("SELECT area FROM AreaFloracion area WHERE area.actualizacion>=?1")
+    List <AreaFloracion> getAreasFloracionAfterFecha(Date fechaCorte);
 }
