@@ -26,4 +26,6 @@ public interface UsuariosRepositorio extends JpaRepository<Usuario, Integer>, Pa
     @Query("SELECT usuarios FROM Usuario usuarios WHERE usuarios.rolUsuario.idRol = :idRol")
     List <Usuario> findAllByRolUsuario(@Param("idRol")Integer idRol, Pageable page);
     
+    Usuario findByNombreUsuario(String nombreUsuario);
+    
 }

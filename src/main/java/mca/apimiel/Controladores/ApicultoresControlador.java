@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -34,6 +36,8 @@ import mca.apimiel.Repositorios.ApicultoresRepositorio;
 @RestController
 @RequestMapping(path = "/apimiel/web")
 public class ApicultoresControlador {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UsuariosControlador.class); 
 	
 	@Autowired
 	ApicultoresRepositorio apicultorRepositorio;
@@ -64,6 +68,7 @@ public class ApicultoresControlador {
 						.stream()
 						.map(fe -> fe.getField() + " " + fe.getDefaultMessage())
 						.collect(Collectors.joining(","));
+				LOGGER.warn(mensaje);
 				return ResponseEntity
 						.badRequest()
 						.header("Error", mensaje)
@@ -75,11 +80,13 @@ public class ApicultoresControlador {
 					.fromCurrentRequest()
 					.path("/{id}")
 					.build(apicultor.getIdApicultor());
+			
 			return ResponseEntity
 					.created(urlNuevoPost)
 					.build();				
 		}
 		catch(Exception ex) {
+			LOGGER.warn("Error al crear apicultor", ex);
 			return ResponseEntity
 					.status(500)
 					.header("ERROR", ex.getMessage())

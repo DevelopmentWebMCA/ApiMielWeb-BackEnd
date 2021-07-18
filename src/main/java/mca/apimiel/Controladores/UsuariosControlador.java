@@ -7,9 +7,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import mca.apimiel.Entidades.Usuario;
 import mca.apimiel.Repositorios.UsuariosRepositorio;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +33,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 @RequestMapping(path = "/apimiel/web")
 public class UsuariosControlador {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UsuariosControlador.class); 
     
     @Autowired
     UsuariosRepositorio repoUsuarios;
+    
+    @Autowired
+    BCryptPasswordEncoder bCrypt;
     
     @GetMapping("/usuarios")
     public List<Usuario> getUsuarios() {
@@ -73,11 +82,13 @@ public class UsuariosControlador {
                         .stream()
                         .map(fe -> fe.getField() + " " + fe.getDefaultMessage())
                         .collect(Collectors.joining(","));
+                LOGGER.warn(mensaje);
                 return ResponseEntity
                         .badRequest()
                         .header("ERROR", mensaje)
                         .build();
             }
+            usuario.setContrasenia(bCrypt.encode(usuario.getContrasenia()));
             repoUsuarios.save(usuario);
             
             URI urlNuevoUsuario = ServletUriComponentsBuilder
@@ -89,6 +100,7 @@ public class UsuariosControlador {
                     .build();
         }
         catch(Exception ex){
+        	LOGGER.warn("Error al guardar usuario", ex);
             return ResponseEntity
                     .status(505)
                     .header("ERROR", ex.getMessage())
