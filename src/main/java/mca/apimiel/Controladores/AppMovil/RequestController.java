@@ -4,18 +4,19 @@ import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import mca.apimiel.Entidades.Asociacion;
-import mca.apimiel.Entidades.DetalleProduccion;
-import mca.apimiel.Entidades.Producto;
-import mca.apimiel.Repositorios.AsociacionesRepositorio;
-import mca.apimiel.Repositorios.DetalleProduccionRepositorio;
-import mca.apimiel.Repositorios.ProductosRepositorio;
+
+import mca.apimiel.Entidades.*;
+import mca.apimiel.Repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.swing.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,11 @@ public class RequestController {
     ProductosRepositorio productosRepositorio;
     @Autowired
     DetalleProduccionRepositorio dpRepositorio;
+    @Autowired
+    AreasFloracionRepositorio areasFloracionRepositorio;
+    @Autowired
+    ApicultoresRepositorio apicultoresRepositorio;
+
 
      //Petición de las asociaciones con una fecha de corte
     @GetMapping(value = "/asociaciones/{fechaCorte}")
@@ -39,9 +45,8 @@ public class RequestController {
         try
         { d = formato.parse(fechaCorte); }
         catch(ParseException e){
-            System.out.println("error de aqui " + e.getMessage());
+            System.out.println("error " + e.getMessage());
         }
-        System.out.println(fechaCorte);
         return asociacionesRepositorio.getAsociacionesAfterFecha(d);
     }
 
@@ -62,9 +67,32 @@ public class RequestController {
 
 
     //Petición de los apicultores con una fecha de corte
-
+    @GetMapping(value = "/apicultores/{fechaCorte}")
+    public List<Apicultor> getApicultoresAfterFecha(@PathVariable("fechaCorte") String fechaCorte){
+        Date d = null;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+        fechaCorte = fechaCorte.replace('-','/');
+        try
+        { d = formato.parse(fechaCorte); }
+        catch(ParseException e){
+            System.out.println("error " + e.getMessage());
+        }
+        return apicultoresRepositorio.getApicultoresAfterFecha(d);
+    }
 
     //Petición de las áreas de floración con una fecha de corte
+    @GetMapping(value = "/areas_floracion/{fechaCorte}")
+    public List<AreaFloracion> getAreasFloracionAfterFecha(@PathVariable("fechaCorte") String fechaCorte){
+        Date d = null;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+        fechaCorte = fechaCorte.replace('-','/');
+        try
+        { d = formato.parse(fechaCorte); }
+        catch(ParseException e){
+            System.out.println("error " + e.getMessage());
+        }
+        return areasFloracionRepositorio.getAreasFloracionAfterFecha(d);
+    }
 
 
     //Petición para guardar la producción de un apicultor
