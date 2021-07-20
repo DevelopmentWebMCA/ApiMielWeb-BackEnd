@@ -13,18 +13,18 @@ public class ApimielApplication {
 		SpringApplication.run(ApimielApplication.class, args);
 	}
 
-
+/*
 	@Bean
 	public WebMvcConfigurer corsConfigurer(){
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry){
-				//Definicion de cors para peticiones por parte de Vue Js
+				Definicion de cors para peticiones por parte de Vue Js
 				registry.addMapping("/apimiel/web/**").
 						allowedOrigins("http://localhost:9091/")
 						.allowedMethods("*").allowedHeaders("*");
 
-				//Definición de cors para peticiones por parte de la app móvil
+				Definición de cors para peticiones por parte de la app móvil
 				registry.addMapping("/apimiel/movil/**").
 						allowedOrigins("http://localhost") //Dirección de la app móvil
 						.allowedMethods("*").allowedHeaders("*");
@@ -32,5 +32,5 @@ public class ApimielApplication {
 
 			}
 		};
-	}
+	}*/
 }

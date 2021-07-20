@@ -2,6 +2,7 @@ package mca.apimiel.Security;
 
 import java.util.Arrays;
 
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -43,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		//Descomentar para habilitar la seguridad
 		/*http
 		.authorizeRequests()
 		.anyRequest()
@@ -50,11 +54,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authenticated()
 		.and()
 		.httpBasic();*/
+		///////
+		
+		
+		//Descomentar para deshabilitar la seguridad
 		http
 		.authorizeRequests()
 		.anyRequest()
 		.permitAll()
         .and().cors().configurationSource(corsConfigurationSource());
+		/////////
 		
 		http.csrf().disable();
 	}
@@ -62,20 +71,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        //System.out.println(origin);
-
         CorsConfiguration config = new CorsConfiguration();
-
-        config.setAllowedOrigins(Arrays.asList("*"));
-
+ 
+        config.setAllowedOrigins(Arrays.asList("http://localhost:9091/"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-
         config.setAllowCredentials(true);
-
         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
 
         
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", config);
