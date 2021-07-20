@@ -147,8 +147,8 @@ public class AreaFloracion implements Serializable {
         return nombreCientifico;
     }
 
-    public void setNombreCientifico(String frecuenciaVisita) {
-        this.nombreCientifico = frecuenciaVisita;
+    public void setNombreCientifico(String nombreCientifico) {
+        this.nombreCientifico = nombreCientifico;
     }
 
     public String getPeriodoFloracion() {
