@@ -59,7 +59,7 @@ public class AreaFloracion implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nombre_cientifico")
-    private String frecuenciaVisita;
+    private String nombreCientifico;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -83,14 +83,14 @@ public class AreaFloracion implements Serializable {
         this.idAreasFloracion = idAreasFloracion;
     }
 
-    public AreaFloracion(Integer idAreasFloracion, String nombreFinca, String regionEstado, String familiaFlores, String especieFlores, String nombreComun, String frecuenciaVisita, String periodoFloracion, Date actualizacion) {
+    public AreaFloracion(Integer idAreasFloracion, String nombreFinca, String regionEstado, String familiaFlores, String especieFlores, String nombreComun, String nombreCientifico, String periodoFloracion, Date actualizacion) {
         this.idAreasFloracion = idAreasFloracion;
         this.nombreFinca = nombreFinca;
         this.regionEstado = regionEstado;
         this.familiaFlores = familiaFlores;
         this.especieFlores = especieFlores;
         this.nombreComun = nombreComun;
-        this.frecuenciaVisita = frecuenciaVisita;
+        this.nombreCientifico = nombreCientifico;
         this.periodoFloracion = periodoFloracion;
         this.actualizacion = actualizacion;
     }
@@ -143,12 +143,12 @@ public class AreaFloracion implements Serializable {
         this.nombreComun = nombreComun;
     }
 
-    public String getFrecuenciaVisita() {
-        return frecuenciaVisita;
+    public String getNombreCientifico() {
+        return nombreCientifico;
     }
 
-    public void setFrecuenciaVisita(String frecuenciaVisita) {
-        this.frecuenciaVisita = frecuenciaVisita;
+    public void setNombreCientifico(String frecuenciaVisita) {
+        this.nombreCientifico = frecuenciaVisita;
     }
 
     public String getPeriodoFloracion() {
