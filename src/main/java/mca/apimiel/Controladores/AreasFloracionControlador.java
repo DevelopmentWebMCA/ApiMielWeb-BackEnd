@@ -86,6 +86,8 @@ public class AreasFloracionControlador {
                         .header("ERROR", mensaje)
                         .build();
             }
+            Date d = new Date();
+            area.setActualizacion(d);
             repoAreas.save(area);
             
             URI urlNuevaArea = ServletUriComponentsBuilder

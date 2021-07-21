@@ -11,6 +11,7 @@ import mca.apimiel.Repositorios.UsuariosRepositorio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,51 +34,56 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 @RequestMapping(path = "/apimiel/web")
 public class UsuariosControlador {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UsuariosControlador.class); 
-    
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsuariosControlador.class);
+
     @Autowired
     UsuariosRepositorio repoUsuarios;
-    
+
     @Autowired
     BCryptPasswordEncoder bCrypt;
-    
+
     @GetMapping("/usuarios")
     public List<Usuario> getUsuarios() {
         return repoUsuarios.findAll();
     }
-    
+
     @GetMapping("/usuarios/page/{idrol}/{page}")
-    public List<Usuario> getUsuariosPage(@PathVariable("idrol") Integer idrol,@PathVariable("page") Integer page) {
+    public List<Usuario> getUsuariosPage(@PathVariable("idrol") Integer idrol, @PathVariable("page") Integer page) {
         return repoUsuarios.findAllByRolUsuario(idrol, PageRequest.of(page, 10));
     }
-   
+
+    @GetMapping("/usuarios/page/{page}")
+    public Page<Usuario> getUsuariosPage(@PathVariable("page") Integer page) {
+        return repoUsuarios.findAll(PageRequest.of(page, 10));
+    }
     
+
     @GetMapping("/usuarios/{id}")
-    public ResponseEntity<Usuario> getUsuarioPorId(@PathVariable("id") Integer id){
+    public ResponseEntity<Usuario> getUsuarioPorId(@PathVariable("id") Integer id) {
         Optional<Usuario> usuarioId = repoUsuarios.findById(id);
-        if (!usuarioId.isPresent()){
+        if (!usuarioId.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(usuarioId.get());
     }
-    
+
     @GetMapping(value = "/usuarios", params = {"nombre"})
     public List<Usuario> buscarUsuarioPorNombre(
-        @RequestParam("nombre") String cadena){
+            @RequestParam("nombre") String cadena) {
         return repoUsuarios.findByNombreUsuarioContaining(cadena);
     }
-    
+
     @GetMapping(value = "/usuarios/rol/{id}")
     public List<Usuario> buscarUsuariosPorRol(
-        @PathVariable("id") Integer idRol){
-        return repoUsuarios.buscarUsuariosPorIdRol(idRol);  
+            @PathVariable("id") Integer idRol) {
+        return repoUsuarios.buscarUsuariosPorIdRol(idRol);
     }
-    
+
     @PostMapping("/usuarios/agregar")
-    public ResponseEntity<Object> agregarUsuario(@RequestBody @Valid Usuario usuario, Errors errores){
-        try{
-            if(errores.hasFieldErrors()){
+    public ResponseEntity<Object> agregarUsuario(@RequestBody @Valid Usuario usuario, Errors errores) {
+        try {
+            if (errores.hasFieldErrors()) {
                 String mensaje = errores.getFieldErrors()
                         .stream()
                         .map(fe -> fe.getField() + " " + fe.getDefaultMessage())
@@ -90,7 +96,7 @@ public class UsuariosControlador {
             }
             usuario.setContrasenia(bCrypt.encode(usuario.getContrasenia()));
             repoUsuarios.save(usuario);
-            
+
             URI urlNuevoUsuario = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
@@ -98,43 +104,41 @@ public class UsuariosControlador {
             return ResponseEntity
                     .created(urlNuevoUsuario)
                     .build();
-        }
-        catch(Exception ex){
-        	LOGGER.warn("Error al guardar usuario", ex);
+        } catch (Exception ex) {
+            LOGGER.warn("Error al guardar usuario", ex);
             return ResponseEntity
                     .status(505)
                     .header("ERROR", ex.getMessage())
                     .build();
         }
     }
-    
+
     @PutMapping("/usuarios/modificar/{id}")
     public ResponseEntity<Object> modificarUsuario(
             @PathVariable("id") Integer id,
-            @RequestBody Usuario usuario){
-         try{
+            @RequestBody Usuario usuario) {
+        try {
             usuario.setIdUsuario(id);
             repoUsuarios.save(usuario);
             return ResponseEntity.
                     ok()
                     .build();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity
                     .status(505)
-                    .header("ERROR",ex.getMessage())
+                    .header("ERROR", ex.getMessage())
                     .build();
         }
     }
-    
+
     @DeleteMapping("/usuarios/eliminar/{id}")
-    public ResponseEntity eliminarUsuario(@PathVariable("id") Integer id){
-        try{
+    public ResponseEntity eliminarUsuario(@PathVariable("id") Integer id) {
+        try {
             repoUsuarios.deleteById(id);
             return ResponseEntity
                     .ok()
                     .build();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity
                     .status(500)
                     .header("ERROR", ex.getMessage())
