@@ -54,13 +54,11 @@ public class Producto implements Serializable {
     @Column(name = "unidad_medida")
     private String unidadMedida;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @NotNull
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<DetalleProduccion> detalleProduccionList;
