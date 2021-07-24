@@ -34,7 +34,8 @@ public class RequestController {
     AreasFloracionRepositorio areasFloracionRepositorio;
     @Autowired
     ApicultoresRepositorio apicultoresRepositorio;
-
+    @Autowired
+    UsuariosRepositorio usuariosRepositorio;
 
      //Petición de las asociaciones con una fecha de corte
     @GetMapping(value = "/asociaciones/{fechaCorte}")
@@ -94,6 +95,12 @@ public class RequestController {
         return areasFloracionRepositorio.getAreasFloracionAfterFecha(d);
     }
 
+    @GetMapping(value="/usuarios/{nombreUsuario}/{contrasenia}")
+    public Usuario getUsuario(@PathVariable("nombreUsuario") String nombreUsuario, @PathVariable("contrasenia")
+                              String contrasenia){
+        Usuario user = usuariosRepositorio.findByNombreUsuarioAndContrasenia(nombreUsuario,contrasenia);
+        return user;
+    }
 
     //Petición para guardar la producción de un apicultor
     @PostMapping(value = "/detalle_produccion/agregar")
@@ -124,4 +131,6 @@ public class RequestController {
                     .build();
         }
     }
+
+
 }
