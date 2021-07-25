@@ -11,4 +11,5 @@ public interface AsociacionesRepositorio extends JpaRepository<Asociacion, Strin
     @Query("SELECT aso FROM Asociacion aso WHERE aso.actualizacion>=?1")
     List<Asociacion> getAsociacionesAfterFecha(Date fechaCorte);
 
+    List <Asociacion> findByNombreAsociacionContaining(String nombre);
 }

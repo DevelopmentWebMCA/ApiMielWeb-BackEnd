@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+
+import mca.apimiel.Entidades.Usuario;
 import org.springframework.validation.Errors;
 import mca.apimiel.Entidades.Asociacion;
 import mca.apimiel.Repositorios.AsociacionesRepositorio;
@@ -35,6 +37,15 @@ public class AsociacionesControlador {
         }
         return ResponseEntity.ok(aso.get());
     }
+
+    //Se obtiene una asociación por nombre de asociación
+    @GetMapping(value = "/asociaciones", params =  {"nombre"})
+    public List<Asociacion> buscarUsuarioPorNombre(
+            @RequestParam("nombre") String cadena) {
+
+        return asociacionesRepositorio.findByNombreAsociacionContaining(cadena);
+    }
+
 
     //Método para agregar una asociación
     @PostMapping("/asociaciones/agregar")
