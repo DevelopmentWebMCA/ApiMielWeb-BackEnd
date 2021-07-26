@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mca.apimiel.Entidades;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
@@ -24,15 +18,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Andres Cuevas
- */
 @Entity
 @Table(name = "apicultores")
-
-public class Apicultor implements Serializable {
-
+public class ApicultorMovil implements  Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -59,33 +47,36 @@ public class Apicultor implements Serializable {
     @Column(name = "correo_electronico")
     private String correoElectronico;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apicultor")
-    private List<DetalleProduccion> detalleProduccionList;
-    @JoinColumn(name = "id_asociacion", referencedColumnName = "id_asociacion")
-    @ManyToOne(optional = false)
-    private Asociacion asociacion;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
-    private Usuario usuario;
 
-    public Apicultor() {
+    @Column(name = "id_asociacion")
+    private String idAsociacion;
+    @Column(name = "id_usuario")
+    private int idUsuario;
+
+    public ApicultorMovil() {
     }
 
-    public Apicultor(String idApicultor) {
+    public ApicultorMovil(String idApicultor) {
         this.idApicultor = idApicultor;
     }
 
-    public Apicultor(String idApicultor, String nombreApicultor, int numeroApiarios, int numeroEmpleados, String correoElectronico, Date actualizacion) {
+    public ApicultorMovil(String idApicultor, String nombreApicultor, int numeroApiarios, int numeroEmpleados, String correoElectronico, Date actualizacion, String idAsociacion, int idUsuario) {
         this.idApicultor = idApicultor;
         this.nombreApicultor = nombreApicultor;
         this.numeroApiarios = numeroApiarios;
         this.numeroEmpleados = numeroEmpleados;
         this.correoElectronico = correoElectronico;
         this.actualizacion = actualizacion;
+        this.idAsociacion = idAsociacion;
+        this.idUsuario = idUsuario;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getIdApicultor() {
@@ -136,53 +127,19 @@ public class Apicultor implements Serializable {
         this.actualizacion = actualizacion;
     }
 
-    public List<DetalleProduccion> getDetalleProduccionList() {
-        return detalleProduccionList;
+    public String getIdAsociacion() {
+        return idAsociacion;
     }
 
-    public void setDetalleProduccionList(List<DetalleProduccion> detalleProduccionList) {
-        this.detalleProduccionList = detalleProduccionList;
+    public void setIdAsociacion(String idAsociacion) {
+        this.idAsociacion = idAsociacion;
     }
 
-    public Asociacion getAsociacion() {
-        return asociacion;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setAsociacion(Asociacion asociacion) {
-        this.asociacion = asociacion;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idApicultor != null ? idApicultor.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Apicultor)) {
-            return false;
-        }
-        Apicultor other = (Apicultor) object;
-        if ((this.idApicultor == null && other.idApicultor != null) || (this.idApicultor != null && !this.idApicultor.equals(other.idApicultor))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mca.apimiel.Entidades.Apicultor[ idApicultor=" + idApicultor + " ]";
-    }
-    
 }

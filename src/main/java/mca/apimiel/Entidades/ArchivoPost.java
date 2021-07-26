@@ -44,7 +44,6 @@ public class ArchivoPost implements Serializable {
     @Column(name = "tipo_archivo")
     private String tipoArchivo;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;

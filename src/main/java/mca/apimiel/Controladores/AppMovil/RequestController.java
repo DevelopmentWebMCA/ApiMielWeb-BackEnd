@@ -37,6 +37,9 @@ public class RequestController {
     @Autowired
     UsuariosRepositorio usuariosRepositorio;
 
+    @Autowired
+    ApicultoresRepositorioMovil apicultoresRepositorioMovil;
+
      //Petición de las asociaciones con una fecha de corte
     @GetMapping(value = "/asociaciones/{fechaCorte}")
     public List<Asociacion> getAsociacionesAferFecha(@PathVariable("fechaCorte") String fechaCorte){
@@ -69,7 +72,7 @@ public class RequestController {
 
     //Petición de los apicultores con una fecha de corte
     @GetMapping(value = "/apicultores/{fechaCorte}")
-    public List<Apicultor> getApicultoresAfterFecha(@PathVariable("fechaCorte") String fechaCorte){
+    public List<ApicultorMovil> getApicultoresAfterFecha(@PathVariable("fechaCorte") String fechaCorte){
         Date d = null;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
         fechaCorte = fechaCorte.replace('-','/');
@@ -78,7 +81,7 @@ public class RequestController {
         catch(ParseException e){
             System.out.println("error " + e.getMessage());
         }
-        return apicultoresRepositorio.getApicultoresAfterFecha(d);
+        return apicultoresRepositorioMovil.getApicultoresAfterFecha(d);
     }
 
     //Petición de las áreas de floración con una fecha de corte

@@ -48,7 +48,6 @@ public class CategoriaPost implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizacion;
