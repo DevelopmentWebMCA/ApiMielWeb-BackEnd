@@ -21,4 +21,6 @@ public interface ApicultoresRepositorio extends JpaRepository<Apicultor, String>
 
     @Query("SELECT api FROM Apicultor api WHERE api.actualizacion>=?1")
     List<Apicultor> getApicultoresAfterFecha(Date fecha);
+    
+    List <Apicultor> findByNombreApicultorContaining(String nombre);
 }
