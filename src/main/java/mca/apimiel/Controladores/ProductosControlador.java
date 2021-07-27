@@ -44,6 +44,15 @@ public class ProductosControlador {
         return ResponseEntity.ok(pro.get());
     }
 
+ //Se obtiene una producto por nombre de producto
+ @GetMapping(value = "/productos", params =  {"nombre"})
+ public List<Producto> buscarUsuarioPorNombre(
+         @RequestParam("nombre") String cadena) {
+
+     return productosRepositorio.findByNombreProductoContaining(cadena);
+ }
+
+
     //Método para agregar un producto
     @PostMapping("/productos/agregar")
     public ResponseEntity agregarProducto(@RequestBody @Valid Producto pro, Errors errores){
