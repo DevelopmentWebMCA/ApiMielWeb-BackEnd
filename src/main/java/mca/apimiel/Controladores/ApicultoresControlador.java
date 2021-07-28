@@ -27,6 +27,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import mca.apimiel.Entidades.Apicultor;
 import mca.apimiel.Repositorios.ApicultoresRepositorio;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -56,6 +57,13 @@ public class ApicultoresControlador {
 		return ResponseEntity.ok(apicultor.get());
 		
 	}
+        
+        @GetMapping(value = "/apicultores", params =  {"nombre"})
+    public List<Apicultor> buscarUsuarioPorNombre(
+            @RequestParam("nombre") String cadena) {
+
+        return apicultorRepositorio.findByNombreApicultorContaining(cadena);
+    }
 	
 	
 	
