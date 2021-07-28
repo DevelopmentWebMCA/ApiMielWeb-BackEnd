@@ -53,14 +53,22 @@ public class Post implements Serializable {
     @Column(name = "fecha_modificacion")
     @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
-//    private List<ArchivoPost> archivoPostList;
+    
+    @JoinColumn(name = "posts_id_post")
+    @OneToMany()
+    private List<ArchivoPost> archivoPostList;
+    
     @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @ManyToOne(optional = false)
     private CategoriaPost categoriaPost;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
     private Usuario usuario;
+    
+
+
+
+    
 
     public Post() {
     }
@@ -75,6 +83,8 @@ public class Post implements Serializable {
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
     }
+    
+
 
     public Integer getIdPost() {
         return idPost;
@@ -109,13 +119,13 @@ public class Post implements Serializable {
     }
 
    
-//    public List<ArchivoPost> getArchivoPostList() {
-//        return archivoPostList;
-//    }
-//
-//    public void setArchivoPostList(List<ArchivoPost> archivoPostList) {
-//        this.archivoPostList = archivoPostList;
-//    }
+    public List<ArchivoPost> getArchivoPostList() {
+        return archivoPostList;
+    }
+
+    public void setArchivoPostList(List<ArchivoPost> archivoPostList) {
+        this.archivoPostList = archivoPostList;
+    }
 
     public CategoriaPost getCategoriaPost() {
         return categoriaPost;
