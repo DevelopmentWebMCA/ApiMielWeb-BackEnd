@@ -6,12 +6,14 @@ import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -47,24 +49,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		//Descomentar para habilitar la seguridad
-		/*http
+		http
 		.authorizeRequests()
+		//.antMatchers(HttpMethod.POST, "/apimiel/web/user").permitAll()
 		.anyRequest()
-		
 		.authenticated()
 		.and()
-		.httpBasic();*/
+		.httpBasic()
+		.and().rememberMe().alwaysRemember(true)
+	
+		//	.defaultSuccessUrl("/#/dashboard", true)
+		//	.failureForwardUrl("/aasdasd")
+		.and().logout()
+			.deleteCookies("delete")
+			.invalidateHttpSession(true)
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/")
+			.permitAll();
+		//.and()
+		//.formLogin();
+		
 		///////
 		
 		
 		//Descomentar para deshabilitar la seguridad
+		/*
 		http
 		.authorizeRequests()
 		.anyRequest()
 		.permitAll()
         .and().cors().configurationSource(corsConfigurationSource());
+        */
 		/////////
 		
+		http.cors().configurationSource(corsConfigurationSource());
+
 		http.csrf().disable();
 	}
 	
@@ -74,6 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
  
         config.setAllowedOrigins(Arrays.asList("http://localhost:9091/"));
+        
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowCredentials(true);
         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));

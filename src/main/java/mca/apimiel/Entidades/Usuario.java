@@ -50,7 +50,8 @@ public class Usuario implements Serializable {
     @NotNull
     @Column(name = "contrasenia")
     private String contrasenia;
-    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
+
+	@JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private RolUsuario rolUsuario;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")

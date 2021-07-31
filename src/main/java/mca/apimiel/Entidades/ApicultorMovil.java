@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "apicultores")
-public class ApicultorMovil implements  Serializable{
+public class ApicultorMovil implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -54,6 +54,9 @@ public class ApicultorMovil implements  Serializable{
 
     @Column(name = "id_asociacion")
     private String idAsociacion;
+
+	@Column(name = "nombre_asociacion")
+    private String nombreAsociacion;
     @Column(name = "id_usuario")
     private int idUsuario;
 
@@ -74,6 +77,15 @@ public class ApicultorMovil implements  Serializable{
         this.idAsociacion = idAsociacion;
         this.idUsuario = idUsuario;
     }
+
+    
+    public String getNombreAsociacion() {
+		return nombreAsociacion;
+	}
+
+	public void setNombreAsociacion(String nombreAsociacion) {
+		this.nombreAsociacion = nombreAsociacion;
+	}
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
