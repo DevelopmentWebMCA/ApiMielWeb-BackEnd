@@ -49,25 +49,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		//Descomentar para habilitar la seguridad
+		
 		http
 		.authorizeRequests()
-		//.antMatchers(HttpMethod.POST, "/apimiel/web/user").permitAll()
 		.anyRequest()
 		.authenticated()
 		.and()
 		.httpBasic()
-		.and().rememberMe().alwaysRemember(true)
-	
-		//	.defaultSuccessUrl("/#/dashboard", true)
-		//	.failureForwardUrl("/aasdasd")
+		.and().rememberMe()
+			.alwaysRemember(true)
 		.and().logout()
 			.deleteCookies("delete")
 			.invalidateHttpSession(true)
 			.logoutUrl("/logout")
 			.logoutSuccessUrl("/")
 			.permitAll();
-		//.and()
-		//.formLogin();
 		
 		///////
 		
